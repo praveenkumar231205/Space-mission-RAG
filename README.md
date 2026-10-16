@@ -1,4 +1,4 @@
-# 🚀 Space RAG — a tiny RAG pipeline with a small local LLM
+#  Space RAG — a RAG pipeline with a small local LLM
 
 A minimal, readable **Retrieval-Augmented Generation** project that answers questions about
 space exploration (Apollo, Artemis, Mars rovers, the ISS, JWST, Voyager, ISRO, reusable rockets)
@@ -43,28 +43,11 @@ python -m space_rag ask "Which Indian mission landed near the Moon's south pole?
 python -m space_rag chat                              # interactive mode
 ```
 
-The first `ask` downloads the LLM (~1 GB) once; later runs use the local Hugging Face cache.
-On a laptop CPU expect a few seconds per answer.
-
-**No LLM yet?** Use retrieval-only mode to see exactly which passages are found:
 
 ```bash
 python -m space_rag ask "How big is the JWST mirror?" --no-llm
 ```
 
-### Example questions
-
-- Who was the first person to walk on the Moon?
-- Which mission made India the first nation to reach Mars orbit on its first attempt?
-- How far from Earth does the James Webb Space Telescope orbit?
-- Which spacecraft is the only one to have visited Uranus and Neptune?
-- When did a Falcon 9 booster first land after an orbital launch?
-- What is the capital of France? *(off-topic → the system should say it doesn't know)*
-
-## Configuration
-
-Everything lives in [`space_rag/config.py`](space_rag/config.py) and can be overridden with
-environment variables:
 
 | Variable              | Default                                   | Meaning                                  |
 |-----------------------|-------------------------------------------|------------------------------------------|
@@ -84,13 +67,6 @@ Want better answers and have a bit more RAM? Try a larger model:
 RAG_LLM_MODEL=Qwen/Qwen2.5-1.5B-Instruct python -m space_rag chat
 ```
 
-## Use your own topic
-
-The prompt is topic-agnostic, so switching topics is just swapping the documents:
-
-1. Delete the files in `data/` and add your own `.md` or `.txt` files
-   (start each file with a `# Title` line — it is used as the source name).
-2. Run `python -m space_rag ingest`.
 
 ## Project layout
 
@@ -119,17 +95,6 @@ pip install numpy pytest
 pytest -q
 ```
 
-## Limitations & ideas
 
-- A 0.5B-parameter model is fast but can still misread or over-compress context. Citations
-  (`[1]`, `[2]`) and the printed sources let you verify every answer.
-- Brute-force NumPy search is ideal up to a few thousand chunks; for more, swap
-  `VectorStore` for FAISS, Chroma or Qdrant — the pipeline only calls `.search()`.
-- The sample facts were written for demonstration and spaceflight news moves quickly
-  (e.g. Artemis schedules), so verify anything important against NASA / ISRO sources.
-- Ideas: add a re-ranker, hybrid BM25 + vector search, PDF loading, a Gradio/Streamlit UI,
-  or an evaluation set of question/answer pairs.
 
-## License
 
-MIT — see [LICENSE](LICENSE). Replace `<your name>` in the license with your own.
